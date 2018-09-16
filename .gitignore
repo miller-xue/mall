@@ -4,10 +4,12 @@
 spring-*/src/main/java/META-INF/MANIFEST.MF
 
 # IDEA artifacts and output dirs
+*.war
 *.iml
 *.ipr
 *.iws
 .idea
+*.class
 out
 test-output
 atlassian-ide-plugin.xml
