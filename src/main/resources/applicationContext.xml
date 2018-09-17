@@ -6,7 +6,7 @@
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    
+    <!-- 扫描除Controller 所有注解 -->
     <context:component-scan base-package="com.mall" annotation-config="true">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
@@ -14,8 +14,6 @@
     <!--<context:annotation-config/>-->
     <aop:aspectj-autoproxy/>
 
-
     <import resource="applicationContext-datasource.xml"/>
-
 
 </beans>

@@ -10,6 +10,7 @@
         </filter>
     </appender>
 
+    <!-- 项目日志 -->
     <appender name="mall" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/malllog/mall.log</File> TODO-->
         <File>/developer/apache-tomcat-7.0.73/logs/mall.log</File>
