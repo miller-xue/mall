@@ -144,6 +144,11 @@
     where username = #{username}
   </select>
 
+  <select id="countByEmail" parameterType="string" resultType="int">
+    select count(1) from user
+    where email = #{email}
+  </select>
+
   <select id="selectLogin" parameterType="map" resultMap="BaseResultMap">
     select
       <include refid="Base_Column_List"/>

@@ -18,6 +18,11 @@ public interface UserMapper {
 
     int countByUserName(String username);
 
+
+    int countByEmail(String email);
+
     User selectLogin(@Param("username") String username,
                      @Param("password") String password);
+
+
 }

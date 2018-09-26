@@ -11,4 +11,10 @@ public interface IUserService {
     ServerResponse<User> login(String username, String password);
 
     boolean checkUsernameExist(String username);
+
+    boolean checkEmailExist(String email);
+
+    ServerResponse<String> register(User user);
+
+    ServerResponse<String> checkValid(String str, String type);
 }
