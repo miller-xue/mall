@@ -18,7 +18,8 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping(value = "/user/")
-public class UserController {
+public class UserController
+{
 
     @Autowired
     private IUserService userService;
@@ -32,9 +33,11 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "login.do" , method = RequestMethod.POST)
-    public ServerResponse<User> login(String username, String password, HttpSession session) {
+    public ServerResponse<User> login(String username, String password, HttpSession session)
+    {
         ServerResponse<User> response = userService.login(username, password);
-        if (response.isSuccess()) {
+        if (response.isSuccess())
+        {
             session.setAttribute(Const.CURRENT_USER, response.getData());
         }
         return response;
@@ -47,7 +50,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/logout.do",method = RequestMethod.GET)
-    public ServerResponse<String> logout(HttpSession session) {
+    public ServerResponse<String> logout(HttpSession session)
+    {
         session.removeAttribute(Const.CURRENT_USER);
         return ServerResponse.buildSuccess();
     }
@@ -59,7 +63,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "register.do" , method = RequestMethod.POST)
-    public ServerResponse<String> register(User user) {
+    public ServerResponse<String> register(User user)
+    {
         return userService.register(user);
     }
 
@@ -71,7 +76,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "check_valid.do" , method = RequestMethod.GET)
-    public ServerResponse<String> checkValid(String str, String type) {
+    public ServerResponse<String> checkValid(String str, String type)
+    {
         return userService.checkValid(str, type);
     }
 
@@ -84,9 +90,27 @@ public class UserController {
     @RequestMapping(value = "/getUserInfo.do",method = RequestMethod.GET)
     public ServerResponse<User> getUserInfo(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
+        if (user == null)
+        {
             return ServerResponse.buildFail("用户未登陆,无法获取当前用户信息");
         }
         return ServerResponse.buildSuccess(user);
+    }
+
+    /**
+     * 根据用户名称找到注册提示问题
+     * @param username
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/forget_get_question.do",method = RequestMethod.GET)
+    public ServerResponse<String> forgetGetQuestion(String username) {
+        return userService.selectQuestion(username);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/forget_check_answer.do",method = RequestMethod.GET)
+    public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer) {
+        return userService.checkAnswer(username, question, answer);
     }
 }

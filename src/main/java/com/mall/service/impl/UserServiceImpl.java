@@ -2,6 +2,7 @@ package com.mall.service.impl;
 
 import com.mall.common.Const;
 import com.mall.common.ServerResponse;
+import com.mall.common.TokenCatch;
 import com.mall.dao.UserMapper;
 import com.mall.pojo.User;
 import com.mall.service.IUserService;
@@ -9,6 +10,8 @@ import com.mall.util.MD5Util;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * Created by miller on 2018/9/24
@@ -32,7 +35,7 @@ public class UserServiceImpl implements IUserService {
         }
         user.setPassword(StringUtils.EMPTY);
 
-        return ServerResponse.buildSuccess("登陆成功" , user);
+        return ServerResponse.buildSuccess("登陆成功", user);
     }
 
 
@@ -69,15 +72,45 @@ public class UserServiceImpl implements IUserService {
                 if (checkUsernameExist(str)) {
                     return ServerResponse.buildFail("用户名已存在");
                 }
-            }else {
+            } else {
                 if (checkEmailExist(str)) {
                     return ServerResponse.buildFail("邮箱已存在");
                 }
             }
-        }else {
+        } else {
             return ServerResponse.buildFail("参数错误");
         }
         return ServerResponse.buildSuccess("校验成功");
     }
 
+    /**
+     * 找回注册问题
+     * @param username
+     * @return
+     */
+    @Override
+    public ServerResponse selectQuestion(String username) {
+        boolean b = checkUsernameExist(username);
+        if (!b) {
+            return ServerResponse.buildFail("用户不存在");
+        }
+        String question = userMapper.selectQuestionByUsername(username);
+        if (StringUtils.isNotBlank(question)) {
+            return ServerResponse.buildSuccess(question);
+        }
+        return ServerResponse.buildFail("找回密码问题为空");
+    }
+
+
+    public ServerResponse<String> checkAnswer(String username, String question, String answer) {
+        int resultCount = userMapper.checkAnswer(username, question, answer);
+        if (resultCount > 0) {
+            // 说名问题及问题答案是这个用户的,并且是正确的
+            String forgetToken = UUID.randomUUID().toString();
+            TokenCatch.setKey("token_" + username, forgetToken);
+
+            return ServerResponse.buildSuccess(forgetToken);
+        }
+        return ServerResponse.buildFail("问题答案错误");
+    }
 }

@@ -155,4 +155,20 @@
     from user
     where username = #{username} and password = #{password}
   </select>
+
+  <select id="selectQuestionByUsername" parameterType="string" resultType="string">
+    select question
+    from user
+    where username = #{username}
+  </select>
+
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    select
+      count(1)
+    form user
+    where
+      username = #{username}
+      and question = #{question}
+      and answer = #{answer}
+  </select>
 </mapper>
