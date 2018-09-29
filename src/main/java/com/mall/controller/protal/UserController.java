@@ -108,9 +108,29 @@ public class UserController
         return userService.selectQuestion(username);
     }
 
+    /**
+     * 校验密码问题答案
+     * @param username 用户名
+     * @param question 问题
+     * @param answer 答案
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/forget_check_answer.do",method = RequestMethod.GET)
     public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer) {
         return userService.checkAnswer(username, question, answer);
+    }
+
+    /**
+     * 重置密码
+     * @param username
+     * @param passwordNew
+     * @param forgetToken
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/forget_reset_password.do",method = RequestMethod.GET)
+    public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
+        return userService.forgetResetPassword(username, passwordNew, forgetToken);
     }
 }
