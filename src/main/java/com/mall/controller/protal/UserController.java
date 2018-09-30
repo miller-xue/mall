@@ -1,6 +1,7 @@
 package com.mall.controller.protal;
 
 import com.mall.common.Const;
+import com.mall.common.ResponseCode;
 import com.mall.common.ServerResponse;
 import com.mall.pojo.User;
 import com.mall.service.IUserService;
@@ -49,7 +50,7 @@ public class UserController
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/logout.do",method = RequestMethod.GET)
+    @RequestMapping(value = "/logout.do",method = RequestMethod.POST)
     public ServerResponse<String> logout(HttpSession session)
     {
         session.removeAttribute(Const.CURRENT_USER);
@@ -75,7 +76,7 @@ public class UserController
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "check_valid.do" , method = RequestMethod.GET)
+    @RequestMapping(value = "check_valid.do" , method = RequestMethod.POST)
     public ServerResponse<String> checkValid(String str, String type)
     {
         return userService.checkValid(str, type);
@@ -87,7 +88,7 @@ public class UserController
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getUserInfo.do",method = RequestMethod.GET)
+    @RequestMapping(value = "/get_user_info.do",method = RequestMethod.POST)
     public ServerResponse<User> getUserInfo(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null)
@@ -103,7 +104,7 @@ public class UserController
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/forget_get_question.do",method = RequestMethod.GET)
+    @RequestMapping(value = "/forget_get_question.do",method = RequestMethod.POST)
     public ServerResponse<String> forgetGetQuestion(String username) {
         return userService.selectQuestion(username);
     }
@@ -116,7 +117,7 @@ public class UserController
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/forget_check_answer.do",method = RequestMethod.GET)
+    @RequestMapping(value = "/forget_check_answer.do",method = RequestMethod.POST)
     public ServerResponse<String> forgetCheckAnswer(String username, String question, String answer) {
         return userService.checkAnswer(username, question, answer);
     }
@@ -129,8 +130,59 @@ public class UserController
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/forget_reset_password.do",method = RequestMethod.GET)
+    @RequestMapping(value = "/forget_reset_password.do",method = RequestMethod.POST)
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
         return userService.forgetResetPassword(username, passwordNew, forgetToken);
+    }
+
+
+    /**
+     * 在线登陆用户重置密码
+     * @param session
+     * @param passwordOld 旧密码
+     * @param passwordNew 新密码
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/reset_password.do",method = RequestMethod.POST)
+    public ServerResponse<String> resetPassword(HttpSession session,String passwordOld, String passwordNew) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.buildFail("用户未登陆");
+        }
+        return userService.resetPassword(user, passwordOld, passwordNew);
+    }
+
+    /**
+     * 修改登陆用户的登陆信息
+     * @param session
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/update_information.do",method = RequestMethod.POST)
+    public ServerResponse<User> updateInformation(HttpSession session, User user) {
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null) {
+            return ServerResponse.buildFail("用户未登陆");
+        }
+        // 防止越权
+        user.setId(currentUser.getId());
+        ServerResponse<User> response = userService.updateInformation(user);
+        if (response.isSuccess()) {
+            session.setAttribute(Const.CURRENT_USER,response.getData());
+        }
+
+        return response;
+    }
+
+    @RequestMapping(value = "get_information.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<User> get_information(HttpSession session) {
+        User currentUser = (User)session.getAttribute(Const.CURRENT_USER);
+        if(currentUser == null){
+            return ServerResponse.buildFail(ResponseCode.NEED_LOGIN.getCode(),"未登录,需要强制登录status=10");
+        }
+        return userService.getInformation(currentUser.getId());
     }
 }

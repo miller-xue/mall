@@ -39,6 +39,6 @@ public class TokenCatch {
         } catch (Exception e) {
             log.error("localcatch get error", e);
         }
-        return null;
+        return value;
     }
 }

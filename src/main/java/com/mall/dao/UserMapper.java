@@ -16,10 +16,12 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    int countByUserName(String username);
+    int countByUserName(@Param("username") String username,
+                        @Param("id") Integer id);
 
 
-    int countByEmail(String email);
+    int countByEmail(@Param("email") String email,
+                     @Param("id") Integer id);
 
     User selectLogin(@Param("username") String username,
                      @Param("password") String password);
@@ -33,4 +35,8 @@ public interface UserMapper {
 
     int updatePassword(@Param("username") String username,
                        @Param("password") String password);
+
+    int countByPasswordAndId(@Param("password") String password,
+                             @Param("id") Integer id);
+
 }

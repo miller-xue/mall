@@ -48,13 +48,17 @@ public class ServerResponse<T> {
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());
     }
 
-    public static <T> ServerResponse<T> buildSuccess(String msg) {
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg);
-    }
 
     public static <T> ServerResponse<T> buildSuccess(T data) {
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), data);
     }
+
+
+    public static <T> ServerResponse<T> buildSuccessMsg(String msg) {
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg);
+    }
+
+
 
     public static <T> ServerResponse<T> buildSuccess(String msg, T data) {
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg, data);
@@ -69,7 +73,7 @@ public class ServerResponse<T> {
         return new ServerResponse<T>(ResponseCode.ERROR.getCode(), errorMsg);
     }
 
-    public static <T> ServerResponse<T> builFail(int errorCode, String errorMsg) {
+    public static <T> ServerResponse<T> buildFail(int errorCode, String errorMsg) {
         return new ServerResponse<T>(errorCode, errorMsg);
     }
 

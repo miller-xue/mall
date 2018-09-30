@@ -142,11 +142,17 @@
   <select id="countByUserName" parameterType="string" resultType="int">
     select count(1) from user
     where username = #{username}
+    <if test="id != null" >
+      and id != #{id}
+    </if>
   </select>
 
   <select id="countByEmail" parameterType="string" resultType="int">
     select count(1) from user
     where email = #{email}
+    <if test="id != null" >
+      and id != #{id}
+    </if>
   </select>
 
   <select id="selectLogin" parameterType="map" resultMap="BaseResultMap">
@@ -165,7 +171,7 @@
   <select id="checkAnswer" resultType="int" parameterType="map">
     select
       count(1)
-    form user
+    from user
     where
       username = #{username}
       and question = #{question}
@@ -174,7 +180,16 @@
 
   <update id="updatePassword" parameterType="map">
     update user
-    password = #{password},update_time = now()
+    set
+    password = #{password} , update_time = now()
     where username = #{username}
   </update>
+
+  <select id="countByPasswordAndId" parameterType="map" resultType="int">
+    select
+      count(1)
+    from user
+    where id = #{id}
+      and password = #{password}
+  </select>
 </mapper>
