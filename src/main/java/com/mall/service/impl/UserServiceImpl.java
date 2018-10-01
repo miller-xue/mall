@@ -211,4 +211,11 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.buildSuccess(user);
     }
 
+    @Override
+    public ServerResponse isAdmin(User user) {
+        if (user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN) {
+            return ServerResponse.buildSuccess();
+        }
+        return ServerResponse.buildFail();
+    }
 }
