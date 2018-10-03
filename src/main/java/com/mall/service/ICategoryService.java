@@ -24,4 +24,6 @@ public interface ICategoryService {
      */
     ServerResponse selectCategoryAndChildrenById(int categoryId);
 
+    ServerResponse<Category> findById(Integer id);
+
 }

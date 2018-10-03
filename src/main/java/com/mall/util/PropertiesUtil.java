@@ -10,6 +10,7 @@ import java.util.Properties;
 
 /**
  * Created by geely
+ * TODO 配置文件封装在配置类中
  */
 public class PropertiesUtil {
 
@@ -18,7 +19,7 @@ public class PropertiesUtil {
     private static Properties props;
 
     static {
-        String fileName = "mmall.properties";
+        String fileName = "mall.properties";
         props = new Properties();
         try {
             props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));

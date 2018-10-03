@@ -25,4 +25,10 @@ public interface Const {
         int ROLE_ADMIN = 1;
     }
 
+    interface Page {
+        String pageNum = "1";
+
+        String pageSize = "10";
+    }
+
 }

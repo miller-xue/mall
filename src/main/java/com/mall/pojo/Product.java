@@ -1,8 +1,11 @@
 package com.mall.pojo;
 
+import lombok.Builder;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Builder
 public class Product {
     private Integer id;
 

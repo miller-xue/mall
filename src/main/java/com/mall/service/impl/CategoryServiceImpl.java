@@ -84,4 +84,16 @@ public class CategoryServiceImpl implements ICategoryService {
         }
         return categorySet;
     }
+
+    @Override
+    public ServerResponse<Category> findById(Integer id) {
+        if (id == null) {
+            return ServerResponse.buildFail("参数错误");
+        }
+        Category category = categoryMapper.selectByPrimaryKey(id);
+        if (category == null) {
+            return ServerResponse.buildFail("参数错误");
+        }
+        return ServerResponse.buildSuccess(category);
+    }
 }
