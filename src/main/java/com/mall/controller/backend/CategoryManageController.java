@@ -3,6 +3,7 @@ package com.mall.controller.backend;
 import com.mall.common.Const;
 import com.mall.common.ResponseCode;
 import com.mall.common.ServerResponse;
+import com.mall.common.annotation.Admin;
 import com.mall.pojo.User;
 import com.mall.service.ICategoryService;
 import com.mall.service.IUserService;
@@ -23,76 +24,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/manage/category")
 public class CategoryManageController {
 
-    @Autowired
-    private IUserService userService;
-
 
     @Autowired
     private ICategoryService categoryService;
 
-
+    @Admin
     @ResponseBody
     @RequestMapping(value = "/add_category.do", method = RequestMethod.POST)
-    public ServerResponse add(HttpSession session, String categoryName,
+    public ServerResponse add(String categoryName,
                               @RequestParam(value = "parentId", defaultValue = "0") int parentId) {
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.buildFail(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆,请登陆");
-        }
-        if (userService.isAdmin(user).isSuccess()) {
-            return categoryService.addCategory(categoryName, parentId);
-        }else {
-            return ServerResponse.buildFail("无权限操作,需要管理员权限");
-        }
+        return categoryService.addCategory(categoryName, parentId);
     }
 
-
+    @Admin
     @ResponseBody
     @RequestMapping(value = "/set_category_name.do",method = RequestMethod.POST)
-    public ServerResponse setCategoryName(HttpSession session,
-                                          Integer categoryId,
+    public ServerResponse setCategoryName(Integer categoryId,
                                           String categoryName) {
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.buildFail(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆,请登陆");
-        }
-        if (userService.isAdmin(user).isSuccess()) {
-            // 更新categoryName
-            return categoryService.updateCategoryName(categoryId, categoryName);
-        } else {
-            return ServerResponse.buildFail("无权限操作,需要管理员权限");
-        }
+        return categoryService.updateCategoryName(categoryId, categoryName);
     }
 
+    @Admin
     @ResponseBody
     @RequestMapping(value = "/get_children_parallel_category.do",method = RequestMethod.POST)
-    public ServerResponse getChildrenParallelCategory(HttpSession session,
-                                                      @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId) {
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.buildFail(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆,请登陆");
-        }
-        if (userService.isAdmin(user).isSuccess()) {
-
-            return categoryService.getChildrenParallelCategory(categoryId);
-        } else {
-            return ServerResponse.buildFail("无权限操作,需要管理员权限");
-        }
+    public ServerResponse getChildrenParallelCategory(@RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId) {
+        return categoryService.getChildrenParallelCategory(categoryId);
     }
 
+    @Admin
     @ResponseBody
     @RequestMapping(value = "/get_deep_category.do",method = RequestMethod.POST)
-    public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session,
-                                                      @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId) {
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        if (user == null) {
-            return ServerResponse.buildFail(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆,请登陆");
-        }
-        if (userService.isAdmin(user).isSuccess()) {
-            // 查询当前节点的id 和递归子节点的id
-            return categoryService.selectCategoryAndChildrenById(categoryId);
-        } else {
-            return ServerResponse.buildFail("无权限操作,需要管理员权限");
-        }
+    public ServerResponse getCategoryAndDeepChildrenCategory(@RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId) {
+        return categoryService.selectCategoryAndChildrenById(categoryId);
     }
 }
