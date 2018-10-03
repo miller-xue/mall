@@ -12,6 +12,10 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
+    <mvc:interceptors>
+        <bean class="com.mall.common.annotation.NeedLoginInterceptor" />
+        <bean class="com.mall.common.annotation.AdminInterceptor" />
+    </mvc:interceptors>
 
     <mvc:annotation-driven>
         <mvc:message-converters>

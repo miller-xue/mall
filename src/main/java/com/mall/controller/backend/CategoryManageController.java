@@ -35,13 +35,10 @@ public class CategoryManageController {
     @RequestMapping(value = "/add_category.do", method = RequestMethod.POST)
     public ServerResponse add(HttpSession session, String categoryName,
                               @RequestParam(value = "parentId", defaultValue = "0") int parentId) {
-        // 校验登陆应该用注解来操作 TODO
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.buildFail(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆,请登陆");
         }
-
-        //管理员权限也可以封装成注解来操作 TODO
         if (userService.isAdmin(user).isSuccess()) {
             return categoryService.addCategory(categoryName, parentId);
         }else {

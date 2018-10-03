@@ -41,4 +41,8 @@ public class TokenCatch {
         }
         return value;
     }
+
+    public static void removeKey(String key) {
+        localCache.invalidate(key);
+    }
 }

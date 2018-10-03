@@ -147,7 +147,8 @@ public class UserServiceImpl implements IUserService {
             String md5Password = MD5Util.MD5EncodeUtf8(passwordNew);
             int rowCount = userMapper.updatePassword(username, md5Password);
             if (rowCount > 0) {
-                // TODO 删除Token
+                // 删除缓存
+                TokenCatch.removeKey(TokenCatch.TOKEN_PREFIX + username);
                 return ServerResponse.buildSuccessMsg("修改密码成功");
             } else {
                 return ServerResponse.buildFail("修改密码失败");
