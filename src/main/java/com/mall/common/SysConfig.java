@@ -44,7 +44,7 @@ public class SysConfig {
         String fileName = "mall.properties";
         props = new Properties();
         try {
-            props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName), "UTF-8"));
+            props.load(new InputStreamReader(SysConfig.class.getClassLoader().getResourceAsStream(fileName), "UTF-8"));
             ftpServerIp = getProperty("ftp.server.ip");
             ftpUser = getProperty("ftp.user");
             ftpPass = getProperty("ftp.pass");
@@ -64,6 +64,4 @@ public class SysConfig {
         }
         return value.trim();
     }
-
-
 }

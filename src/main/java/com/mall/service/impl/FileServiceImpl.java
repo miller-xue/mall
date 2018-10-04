@@ -19,6 +19,9 @@ import java.util.UUID;
 public class FileServiceImpl implements IFileService {
 
     public String upload(MultipartFile file, String path) {
+        if (file.getSize() == 0) {
+            return null;
+        }
         // 1.拿去原始文件名
         String fileName = file.getOriginalFilename();
         // 2.拿到文件扩展屏

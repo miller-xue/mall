@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,6 +87,9 @@ public class ProductManageController {
     public ServerResponse upload(@RequestParam(value = "upload_file", required = false) MultipartFile file, HttpServletRequest request) {
         String path = request.getSession().getServletContext().getRealPath("upload");
         String targetFileName = fileService.upload(file, path);
+        if (StringUtils.isBlank(targetFileName)) {
+            return ServerResponse.buildFail("上传失败");
+        }
 
         String url = SysConfig.ftpServerHttpPrefix + targetFileName;
         Map fileMap = Maps.newHashMap();

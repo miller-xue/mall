@@ -22,7 +22,7 @@ public interface ICategoryService {
      * @param categoryId 本节点id
      * @return
      */
-    ServerResponse selectCategoryAndChildrenById(int categoryId);
+    ServerResponse<List<Integer>> selectCategoryAndChildrenById(int categoryId);
 
     ServerResponse<Category> findById(Integer id);
 

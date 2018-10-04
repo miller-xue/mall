@@ -178,12 +178,29 @@
     from product
     <where>
       <if test="name != null" >
-        and name = #{name}
+        and name like #{name}
       </if>
       <if test="id != null" >
         and id = #{id}
       </if>
     </where>
     order by id asc
+  </select>
+
+
+  <select id="selectByKeywordCategoryIds" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from product
+    where status = 1
+    <if test="keyword != null" >
+      and name like #{keyword}
+    </if>
+    <if test="categoryIdList != null" >
+      and category_id in
+        <foreach collection="categoryIdList" item="item" index="index" separator="," open="(" close=")">
+          #{item}
+        </foreach>
+    </if>
   </select>
 </mapper>
