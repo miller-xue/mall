@@ -1,7 +1,9 @@
 package com.mall.pojo;
 
-import java.util.Date;
+import lombok.Builder;
 
+import java.util.Date;
+@Builder
 public class Cart {
     private Integer id;
 
