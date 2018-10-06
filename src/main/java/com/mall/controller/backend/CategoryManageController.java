@@ -28,6 +28,12 @@ public class CategoryManageController {
     @Autowired
     private ICategoryService categoryService;
 
+    /**
+     * 新增一个分类
+     * @param categoryName
+     * @param parentId
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping(value = "/add_category.do", method = RequestMethod.POST)
@@ -36,6 +42,12 @@ public class CategoryManageController {
         return categoryService.addCategory(categoryName, parentId);
     }
 
+    /**
+     * 修改分类名称
+     * @param categoryId
+     * @param categoryName
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping(value = "/set_category_name.do",method = RequestMethod.POST)
@@ -44,12 +56,18 @@ public class CategoryManageController {
         return categoryService.updateCategoryName(categoryId, categoryName);
     }
 
+    /**
+     * 获得当前分类和所有子分类的id
+     * @param categoryId
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping(value = "/get_children_parallel_category.do",method = RequestMethod.POST)
     public ServerResponse getChildrenParallelCategory(@RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId) {
         return categoryService.getChildrenParallelCategory(categoryId);
     }
+
 
     @Admin
     @ResponseBody

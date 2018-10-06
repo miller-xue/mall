@@ -41,7 +41,7 @@ public class ShippingServiceImpl implements IShippingService {
 
 
     public ServerResponse<String> del(Integer shippingId) {
-        int resultCount = shippingMapper.deleteByPrimaryKeyUAndUserId(shippingId, HttpContextUtils.getCurrentUser().getId());
+        int resultCount = shippingMapper.deleteByPrimaryKeyAndUserId(shippingId, HttpContextUtils.getCurrentUser().getId());
         if (resultCount > 0)
         {
             return ServerResponse.buildSuccessMsg("删除地址成功");

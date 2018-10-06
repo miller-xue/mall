@@ -41,6 +41,11 @@ public class ProductManageController {
     private IFileService fileService;
 
 
+    /**
+     * 保存一个商品
+     * @param product
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping("/save.do")
@@ -48,6 +53,12 @@ public class ProductManageController {
         return productService.saveOrUpdate(product);
     }
 
+    /**
+     * 设置商品上下架状态
+     * @param productId
+     * @param status
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping("/set_sale_status.do")
@@ -56,6 +67,11 @@ public class ProductManageController {
     }
 
 
+    /**
+     * 商品详情
+     * @param productId
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping("/detail.do")
@@ -63,6 +79,12 @@ public class ProductManageController {
         return productService.managProductDetail(productId);
     }
 
+    /**
+     * 商品列表
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping("/list.do")
@@ -71,6 +93,14 @@ public class ProductManageController {
         return productService.getProductList(pageNum, pageSize);
     }
 
+    /**
+     * 查询一个商品
+     * @param pageNum
+     * @param pageSize
+     * @param productName
+     * @param productId
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping("/search.do")
@@ -80,7 +110,12 @@ public class ProductManageController {
         return productService.searchProductList(pageNum, pageSize, productName, productId);
     }
 
-
+    /**
+     * 上传图片
+     * @param file
+     * @param request
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping("/upload.do")
@@ -98,6 +133,14 @@ public class ProductManageController {
         return ServerResponse.buildSuccess(fileMap);
     }
 
+    /**
+     * 富文本上传图片
+     * @param session
+     * @param response
+     * @param file
+     * @param request
+     * @return
+     */
     @Admin
     @ResponseBody
     @RequestMapping("/richtext_img_upload.do")

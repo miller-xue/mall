@@ -22,11 +22,26 @@ public class ProductController {
     private IProductService productService;
 
 
+    /**
+     * 前台商品详情
+     * @param productId
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/detail.do")
     public ServerResponse<ProductDetailVo> detail(Integer productId) {
         return productService.getProductDetail(productId);
     }
+
+    /**
+     * 前台商品列表
+     * @param pageNum
+     * @param pageSize
+     * @param keyword
+     * @param categoryId
+     * @param orderBy
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/list.do")
     public ServerResponse<PageInfo> list(@RequestParam(value = "pageNum", defaultValue = Const.Page.pageNum) int pageNum,

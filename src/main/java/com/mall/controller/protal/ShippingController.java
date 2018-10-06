@@ -24,13 +24,23 @@ public class ShippingController {
     private IShippingService shippingService;
 
 
+    /**
+     * 新增一个收货地址
+     * @param shipping 对象
+     * @return
+     */
     @NeedLogin
     @ResponseBody
-    @RequestMapping(value = "add")
+    @RequestMapping(value = "add.do")
     public ServerResponse add(Shipping shipping) {
         return shippingService.add(shipping);
     }
 
+    /**
+     * 删除一个收货地址
+     * @param shippingId id
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "del.do")
@@ -38,6 +48,11 @@ public class ShippingController {
         return shippingService.del(shippingId);
     }
 
+    /**
+     * 修改一个收货地址
+     * @param shipping 对象
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "update.do")
@@ -45,6 +60,11 @@ public class ShippingController {
         return shippingService.update(shipping);
     }
 
+    /**
+     * 查询一个收货地址
+     * @param shippingId 对象
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "select.do")
@@ -52,7 +72,12 @@ public class ShippingController {
         return shippingService.select(shippingId);
     }
 
-
+    /**
+     * 收货地址列表
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "list.do")

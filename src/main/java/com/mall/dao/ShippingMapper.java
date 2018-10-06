@@ -18,14 +18,35 @@ public interface ShippingMapper {
 
     int updateByPrimaryKey(Shipping record);
 
-
-    int deleteByPrimaryKeyUAndUserId(@Param("id") Integer id,
+    /**
+     * 根据主键和用户id删除一个地址
+     * @param id 主键
+     * @param userId 用户id
+     * @return
+     */
+    int deleteByPrimaryKeyAndUserId(@Param("id") Integer id,
                                      @Param("userId") int userId);
 
-    int updateByPrimaryKeyAndUserId(Shipping record);
+    /**
+     * 根据主键和用户id修改对象
+     * @param shipping 对象
+     * @return
+     */
+    int updateByPrimaryKeyAndUserId(Shipping shipping);
 
+    /**
+     * 根据主键和用户Id查询一个对象
+     * @param id id
+     * @param userId 用户id
+     * @return
+     */
     Shipping selectByPrimaryKeyAndUserId(@Param("id") Integer id,
                                          @Param("userId") int userId);
 
+    /**
+     * 查询列表
+     * @param userId 用户Id
+     * @return
+     */
     List<Shipping> selectByUserId(int userId);
 }

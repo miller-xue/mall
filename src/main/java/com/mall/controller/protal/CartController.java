@@ -24,15 +24,26 @@ public class CartController {
     private ICartService cartService;
 
 
+    /**
+     * 新增一个购物车
+     * @param productId
+     * @param count
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "add.do")
     public ServerResponse<CartVo> add(Integer productId, Integer count) {
-        //TODO 用户从 线程中取出
         User currentUser = HttpContextUtils.getCurrentUser();
         return cartService.add(currentUser.getId(), productId, count);
     }
 
+    /**
+     * 修改购物车数量
+     * @param productId
+     * @param count
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "update.do")
@@ -41,6 +52,11 @@ public class CartController {
         return cartService.update(currentUser.getId(), productId, count);
     }
 
+    /**
+     * 删除一个购物车对象
+     * @param productIds
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "delete_product.do")
@@ -49,6 +65,10 @@ public class CartController {
         return cartService.deleteProduct(currentUser.getId(),productIds);
     }
 
+    /**
+     * 购物车列表
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "list.do")
@@ -58,6 +78,10 @@ public class CartController {
     }
 
 
+    /**
+     * 选中所有
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "select_all.do")
@@ -66,6 +90,10 @@ public class CartController {
         return cartService.selectOrUnSelectAll(currentUser.getId(),Const.Cart.CHECKED);
     }
 
+    /**
+     * 不选中所有
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "un_select_all.do")
@@ -75,6 +103,11 @@ public class CartController {
     }
 
 
+    /**
+     * 选中单个
+     * @param productId
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "select.do")
@@ -83,6 +116,11 @@ public class CartController {
         return cartService.selectOrUnSelect(currentUser.getId(), productId, Const.Cart.CHECKED);
     }
 
+    /**
+     * 不选中单个
+     * @param productId
+     * @return
+     */
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "un_select.do")
@@ -92,7 +130,10 @@ public class CartController {
     }
 
 
-
+    /**
+     * 获得购物车总数量
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "get_cart_product_count.do")
     public ServerResponse<Integer> getCartProductCount() {
