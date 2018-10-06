@@ -4,6 +4,7 @@ import com.mall.common.Const;
 import com.mall.common.ResponseCode;
 import com.mall.common.ServerResponse;
 import com.mall.pojo.User;
+import com.mall.util.HttpContextUtils;
 import com.mall.util.SysUtil;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -26,7 +27,7 @@ public class NeedLoginInterceptor extends HandlerInterceptorAdapter {
             {
                 return true;
             }
-            User user = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+            User user = HttpContextUtils.getCurrentUser();
             if (user == null)
             {
                 SysUtil.render(response, ServerResponse.buildFail(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆,请登陆"));

@@ -4,6 +4,7 @@ import com.mall.common.Const;
 import com.mall.common.ServerResponse;
 import com.mall.pojo.User;
 import com.mall.service.IUserService;
+import com.mall.util.HttpContextUtils;
 import com.mall.util.SysUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
@@ -33,7 +34,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
                 return true;
             }
             // 1.取出用户
-            User user = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+            User user = HttpContextUtils.getCurrentUser();
 
             if (userService.isAdmin(user).isSuccess())
             {

@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class CartServiceImpl implements ICartService {
         if (productId == null || count == null) {
             return ServerResponse.buildFail(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
+        // 校验productId是否存在
+
 
         Cart cart = cartMapper.selectByUserIdAndProductId(userId, productId);
         if (cart == null) {
@@ -70,6 +73,9 @@ public class CartServiceImpl implements ICartService {
 
     public ServerResponse<CartVo> deleteProduct(int userId, String productIds) {
         List<String> productIdList = Splitter.on(",").splitToList(productIds);
+        if (productIds == null) {
+            return ServerResponse.buildFail(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
         if (CollectionUtils.isEmpty(productIdList)) {
             return ServerResponse.buildFail(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
@@ -104,7 +110,8 @@ public class CartServiceImpl implements ICartService {
         return ServerResponse.buildSuccess(getCartVo(userId));
     }
 
-    private CartVo getCartVo(int userId) {
+    @Transactional
+    public CartVo getCartVo(int userId) {
         List<Cart> cartList = cartMapper.selectByUserId(userId);
         BigDecimal cartTotalPrice = BigDecimalUtil.ZERO;
         Boolean allChecked = true;

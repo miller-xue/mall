@@ -5,13 +5,13 @@ import com.mall.common.ServerResponse;
 import com.mall.common.annotation.NeedLogin;
 import com.mall.pojo.User;
 import com.mall.service.ICartService;
+import com.mall.util.HttpContextUtils;
 import com.mall.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by miller on 2018/10/4
@@ -27,36 +27,33 @@ public class CartController {
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "add.do")
-    public ServerResponse<CartVo> add(HttpServletRequest request,
-                                      Integer productId, Integer count) {
+    public ServerResponse<CartVo> add(Integer productId, Integer count) {
         //TODO 用户从 线程中取出
-        User currentUser = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+        User currentUser = HttpContextUtils.getCurrentUser();
         return cartService.add(currentUser.getId(), productId, count);
     }
 
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "update.do")
-    public ServerResponse<CartVo> update(HttpServletRequest request,
-                                      Integer productId, Integer count) {
-        User currentUser = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+    public ServerResponse<CartVo> update( Integer productId, Integer count) {
+        User currentUser = HttpContextUtils.getCurrentUser();
         return cartService.update(currentUser.getId(), productId, count);
     }
 
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "delete_product.do")
-    public ServerResponse<CartVo> deleteProduct(HttpServletRequest request,
-                                      String productIds) {
-        User currentUser = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+    public ServerResponse<CartVo> deleteProduct( String productIds) {
+        User currentUser = HttpContextUtils.getCurrentUser();
         return cartService.deleteProduct(currentUser.getId(),productIds);
     }
 
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "list.do")
-    public ServerResponse<CartVo> list(HttpServletRequest request) {
-        User currentUser = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+    public ServerResponse<CartVo> list() {
+        User currentUser = HttpContextUtils.getCurrentUser();
         return cartService.list(currentUser.getId());
     }
 
@@ -64,16 +61,16 @@ public class CartController {
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "select_all.do")
-    public ServerResponse<CartVo> selectAll(HttpServletRequest request) {
-        User currentUser = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+    public ServerResponse<CartVo> selectAll() {
+        User currentUser = HttpContextUtils.getCurrentUser();
         return cartService.selectOrUnSelectAll(currentUser.getId(),Const.Cart.CHECKED);
     }
 
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "un_select_all.do")
-    public ServerResponse<CartVo> unSelectAll(HttpServletRequest request) {
-        User currentUser = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+    public ServerResponse<CartVo> unSelectAll() {
+        User currentUser = HttpContextUtils.getCurrentUser();
         return cartService.selectOrUnSelectAll(currentUser.getId(),Const.Cart.UN_CHECKED);
     }
 
@@ -81,16 +78,16 @@ public class CartController {
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "select.do")
-    public ServerResponse<CartVo> select(HttpServletRequest request, Integer productId) {
-        User currentUser = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+    public ServerResponse<CartVo> select(Integer productId) {
+        User currentUser = HttpContextUtils.getCurrentUser();
         return cartService.selectOrUnSelect(currentUser.getId(), productId, Const.Cart.CHECKED);
     }
 
     @NeedLogin
     @ResponseBody
     @RequestMapping(value = "un_select.do")
-    public ServerResponse<CartVo> unSelect(HttpServletRequest request, Integer productId) {
-        User currentUser = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+    public ServerResponse<CartVo> unSelect(Integer productId) {
+        User currentUser = HttpContextUtils.getCurrentUser();
         return cartService.selectOrUnSelect(currentUser.getId(), productId, Const.Cart.UN_CHECKED);
     }
 
@@ -98,31 +95,12 @@ public class CartController {
 
     @ResponseBody
     @RequestMapping(value = "get_cart_product_count.do")
-    public ServerResponse<Integer> getCartProductCount(HttpServletRequest request) {
-        User currentUser = (User) request.getSession().getAttribute(Const.CURRENT_USER);
+    public ServerResponse<Integer> getCartProductCount() {
+        User currentUser = HttpContextUtils.getCurrentUser();
         if (currentUser == null) {
             return ServerResponse.buildSuccess(0);
         }
 
         return cartService.getCartProductCount(currentUser.getId());
     }
-
-
-
-
-
-
-    // 全选
-
-    // 全反选
-
-    // 单独选
-
-    // 单独反选
-
-
-    // 查询当前用户购物车的产品数量
-
-
-
 }
